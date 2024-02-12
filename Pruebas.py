@@ -1,7 +1,10 @@
 import pygame
-from pygame import init, display, event, image, transform, font, Rect
+from pygame import init, display, event, image, transform, font, Rect, time
 from pygame.locals import QUIT, MOUSEBUTTONDOWN, MOUSEBUTTONUP
+from Frames import Frame_Personajes, FRAMES_IDLE_SAMURAI, FRAMES_WALK_SAMURAI, RIGHT, LEFT
 
+
+SAMURAI = 'Samurai'
 WIDTH = 800
 HEIGHT = 600
 BLANCO = (255, 255, 255)
@@ -20,7 +23,39 @@ def pantalla_pelea():
     imagen = image.load(ESCENARIO) # Carga la imagen del escenario
     imagen_tamanio = transform.scale(imagen, (WIDTH, HEIGHT)) # Redimensiona la imagen al tamaño de la pantalla
 
+
+
+    Samurai = Frame_Personajes(SAMURAI)
+    Samurai.agregar_frame(FRAMES_IDLE_SAMURAI)
+    Samurai.agregar_frame(FRAMES_WALK_SAMURAI)
+    parado_derecha = Samurai.obtener_frames('Idle', RIGHT)
+    parado_izquierda = Samurai.obtener_frames('Idle', 'left')
+    caminar_izquierda = Samurai.obtener_frames('Walk', 'Left')
+    caminar_derecha = Samurai.obtener_frames('Walk', RIGHT)
+
+    print(caminar_derecha)
+    #print(parado_derecha)
+
+    x = 58
+    y = 420
+    width_personaje = 5
+    height_personaje = 5
+    vel = 5
+
+    frame_rect = parado_derecha[0].get_rect()
+    frame_rect.center = (WIDTH // 2, HEIGHT // 2)
+
+    frame_index = 0
+    frame_rate = 13
+
+    movement_speed = 5
+
+    clock = time.Clock()
+
     running = True
+
+    left = False
+    right = False
 
     while running:
 
@@ -28,10 +63,52 @@ def pantalla_pelea():
             if evento.type == QUIT: # Verifica si algún evento cierra la ventana
                 running = False
 
+        keys = pygame.key.get_pressed()
+
+        quieto = True
+
+        if keys[pygame.K_LEFT]:
+            frame_rect.x -= movement_speed
+            right = False
+            left = True
+            quieto = False
+
+        elif keys[pygame.K_RIGHT]:
+            frame_rect.x += movement_speed
+            right = True
+            left = False
+            quieto = False
+
         pantalla.blit(imagen_tamanio, (0, 0))
+
+
+        if quieto:
+            frame_index += 1
+            if frame_index >= len(parado_derecha):
+                frame_index = 0
+            pantalla.blit(parado_derecha[frame_index], frame_rect)
+
+        elif right:
+            frame_index += 1
+            if frame_index >= len(caminar_derecha):
+                frame_index = 0
+            pantalla.blit(caminar_derecha[frame_index], frame_rect)
+
+        elif left:
+            frame_index += 1
+            if frame_index >= len(caminar_izquierda):
+                frame_index = 0
+            pantalla.blit(caminar_izquierda[frame_index], frame_rect)
+
+
+        # Controlar la velocidad de la animación
+        clock.tick(frame_rate)
+
         pygame.display.flip()
 
     pygame.quit() # Cierra el programa
+
+
 
 def pantalla_inicio():
 

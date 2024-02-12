@@ -29,9 +29,9 @@ RUN = 'Run'
 JUMP = 'Jump'
 SHIELD = 'Shield'
 HURT = 'Hurt'
-ATTACK_1 = 'Ataack_1'
-ATTACK_2 = 'Ataack_2'
-ATTACK_3 = 'Ataack_3'
+ATTACK_1 = 'Attack_1'
+ATTACK_2 = 'Attack_2'
+ATTACK_3 = 'Attack_3'
 DEAD = 'Dead'
 
 class Frame_Personajes:
@@ -66,8 +66,13 @@ class Frame_Personajes:
         }
     
     def agregar_frame(self, movimiento):
-        self.frames[movimiento[ACTION]+UNION+LEFT] = movimiento[LEFT]
-        self.frames[movimiento[ACTION]+UNION+RIGHT] = movimiento[RIGHT]
+        
+        for direccion in movimiento:
+            if direccion != ACTION:
+                lista_direcciones = movimiento[direccion]
+                for rutas in lista_direcciones:
+                    self.frames[movimiento[ACTION]+UNION+direccion].append(image.load(rutas))
+
 
     def obtener_frames(self, accion, direccion):
         return self.frames.get(accion+UNION+direccion, [])
@@ -76,7 +81,6 @@ class Frame_Personajes:
 def ruta(nombre, accion, direccion, imagen_png):
     
     return os.path.join("Personajes", nombre, accion, direccion, imagen_png)
-
 
 
 FRAMES_ATTACK_1_SAMURAI = {
