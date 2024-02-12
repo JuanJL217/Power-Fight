@@ -29,9 +29,9 @@ RUN = 'Run'
 JUMP = 'Jump'
 SHIELD = 'Shield'
 HURT = 'Hurt'
-ATAACK_1 = 'Ataack 1'
-ATAACK_2 = 'Ataack 2'
-ATAACK_3 = 'Ataack 3'
+ATTACK_1 = 'Ataack_1'
+ATTACK_2 = 'Ataack_2'
+ATTACK_3 = 'Ataack_3'
 DEAD = 'Dead'
 
 class Frame_Personajes:
@@ -47,9 +47,9 @@ class Frame_Personajes:
             JUMP+UNION+LEFT: [],
             SHIELD+UNION+LEFT: [],
             HURT+UNION+LEFT: [],
-            ATAACK_1+UNION+LEFT: [],
-            ATAACK_2+UNION+LEFT: [],
-            ATAACK_3+UNION+LEFT: [],
+            ATTACK_1+UNION+LEFT: [],
+            ATTACK_2+UNION+LEFT: [],
+            ATTACK_3+UNION+LEFT: [],
             DEAD+UNION+LEFT: [],
 
             # Movimientos a la derecha
@@ -59,9 +59,9 @@ class Frame_Personajes:
             JUMP+UNION+RIGHT: [],
             SHIELD+UNION+RIGHT: [],
             HURT+UNION+RIGHT: [],
-            ATAACK_1+UNION+RIGHT: [],
-            ATAACK_2+UNION+RIGHT: [],
-            ATAACK_3+UNION+RIGHT: [],
+            ATTACK_1+UNION+RIGHT: [],
+            ATTACK_2+UNION+RIGHT: [],
+            ATTACK_3+UNION+RIGHT: [],
             DEAD+UNION+RIGHT: [],
         }
     
@@ -69,8 +69,8 @@ class Frame_Personajes:
         self.frames[movimiento[ACTION]+UNION+LEFT] = movimiento[LEFT]
         self.frames[movimiento[ACTION]+UNION+RIGHT] = movimiento[RIGHT]
 
-    def obtener_frames(self, accion):
-        return self.frames.get(accion, [])
+    def obtener_frames(self, accion, direccion):
+        return self.frames.get(accion+UNION+direccion, [])
     
     
 def ruta(nombre, accion, direccion, imagen_png):
@@ -78,19 +78,82 @@ def ruta(nombre, accion, direccion, imagen_png):
     return os.path.join("Personajes", nombre, accion, direccion, imagen_png)
 
 
+
+FRAMES_ATTACK_1_SAMURAI = {
+
+    ACTION: ATTACK_1,
+
+    LEFT: [
+        ruta(SAMURAI, ATTACK_1, LEFT, PNG_1),
+        ruta(SAMURAI, ATTACK_1, LEFT, PNG_2),
+        ruta(SAMURAI, ATTACK_1, LEFT, PNG_3),
+        ruta(SAMURAI, ATTACK_1, LEFT, PNG_4),
+        ruta(SAMURAI, ATTACK_1, LEFT, PNG_5),
+        ruta(SAMURAI, ATTACK_1, LEFT, PNG_6),
+    ],
+
+    RIGHT: [
+        ruta(SAMURAI, ATTACK_1, RIGHT, PNG_1),
+        ruta(SAMURAI, ATTACK_1, RIGHT, PNG_2),
+        ruta(SAMURAI, ATTACK_1, RIGHT, PNG_3),
+        ruta(SAMURAI, ATTACK_1, RIGHT, PNG_4),
+        ruta(SAMURAI, ATTACK_1, RIGHT, PNG_5),
+        ruta(SAMURAI, ATTACK_1, RIGHT, PNG_6),
+    ]
+}
+
+
+FRAMES_ATTACK_2_SAMURAI = {
+
+    ACTION: ATTACK_2,
+
+    LEFT: [
+        ruta(SAMURAI, ATTACK_2, LEFT, PNG_1),
+        ruta(SAMURAI, ATTACK_2, LEFT, PNG_2),
+        ruta(SAMURAI, ATTACK_2, LEFT, PNG_3),
+        ruta(SAMURAI, ATTACK_2, LEFT, PNG_4),  
+    ],
+
+    RIGHT: [
+        ruta(SAMURAI, ATTACK_2, RIGHT, PNG_1),
+        ruta(SAMURAI, ATTACK_2, RIGHT, PNG_2),
+        ruta(SAMURAI, ATTACK_2, RIGHT, PNG_3),
+        ruta(SAMURAI, ATTACK_2, RIGHT, PNG_4),        
+    ]
+}
+
+
+FRAMES_ATTACK_3_SAMURAI = {
+
+    ACTION: ATTACK_3,
+
+    LEFT: [
+        ruta(SAMURAI, ATTACK_3, LEFT, PNG_1),
+        ruta(SAMURAI, ATTACK_3, LEFT, PNG_2),
+        ruta(SAMURAI, ATTACK_3, LEFT, PNG_3),       
+    ],
+
+    RIGHT: [
+        ruta(SAMURAI, ATTACK_3, RIGHT, PNG_1),
+        ruta(SAMURAI, ATTACK_3, RIGHT, PNG_2),
+        ruta(SAMURAI, ATTACK_3, RIGHT, PNG_3),       
+    ]
+}
+
+
 FRAMES_WALK_SAMURAI = {
 
     ACTION: WALK,
 
     LEFT: [
-        ruta(SAMURAI, WALK, RIGHT, PNG_1),
-        ruta(SAMURAI, WALK, RIGHT, PNG_2),
-        ruta(SAMURAI, WALK, RIGHT, PNG_3),
-        ruta(SAMURAI, WALK, RIGHT, PNG_4),
-        ruta(SAMURAI, WALK, RIGHT, PNG_5),
-        ruta(SAMURAI, WALK, RIGHT, PNG_6),
-        ruta(SAMURAI, WALK, RIGHT, PNG_7),
-        ruta(SAMURAI, WALK, RIGHT, PNG_8)        
+        ruta(SAMURAI, WALK, LEFT, PNG_1),
+        ruta(SAMURAI, WALK, LEFT, PNG_2),
+        ruta(SAMURAI, WALK, LEFT, PNG_3),
+        ruta(SAMURAI, WALK, LEFT, PNG_4),
+        ruta(SAMURAI, WALK, LEFT, PNG_5),
+        ruta(SAMURAI, WALK, LEFT, PNG_6),
+        ruta(SAMURAI, WALK, LEFT, PNG_7),
+        ruta(SAMURAI, WALK, LEFT, PNG_8)        
     ],
 
     RIGHT: [
@@ -174,9 +237,75 @@ FRAMES_RUN_SAMURAI = {
 }
 
 
+FRAMES_IDLE_SAMURAI = {
+
+    ACTION: IDLE,
+
+    LEFT: [
+        ruta(SAMURAI, IDLE, LEFT, PNG_1),
+        ruta(SAMURAI, IDLE, LEFT, PNG_2),
+        ruta(SAMURAI, IDLE, LEFT, PNG_3),
+        ruta(SAMURAI, IDLE, LEFT, PNG_4),
+        ruta(SAMURAI, IDLE, LEFT, PNG_5),
+        ruta(SAMURAI, IDLE, LEFT, PNG_6),    
+    ],
+
+    RIGHT: [
+        ruta(SAMURAI, IDLE, RIGHT, PNG_1),
+        ruta(SAMURAI, IDLE, RIGHT, PNG_2),
+        ruta(SAMURAI, IDLE, RIGHT, PNG_3),
+        ruta(SAMURAI, IDLE, RIGHT, PNG_4),
+        ruta(SAMURAI, IDLE, RIGHT, PNG_5),
+        ruta(SAMURAI, IDLE, RIGHT, PNG_6),        
+    ]
+}
+
+
+FRAMES_JUMP_SAMURAI = {
+
+    ACTION: JUMP,
+
+    LEFT: [
+        ruta(SAMURAI, JUMP, LEFT, PNG_1),
+        ruta(SAMURAI, JUMP, LEFT, PNG_2),
+        ruta(SAMURAI, JUMP, LEFT, PNG_3),
+        ruta(SAMURAI, JUMP, LEFT, PNG_4),
+        ruta(SAMURAI, JUMP, LEFT, PNG_5),
+        ruta(SAMURAI, JUMP, LEFT, PNG_6),
+        ruta(SAMURAI, JUMP, LEFT, PNG_7),
+        ruta(SAMURAI, JUMP, LEFT, PNG_8),
+        ruta(SAMURAI, JUMP, LEFT, PNG_9),
+        ruta(SAMURAI, JUMP, LEFT, PNG_10),
+        ruta(SAMURAI, JUMP, LEFT, PNG_11),
+        ruta(SAMURAI, JUMP, LEFT, PNG_12)
+    ],
+
+    RIGHT: [
+        ruta(SAMURAI, JUMP, RIGHT, PNG_1),
+        ruta(SAMURAI, JUMP, RIGHT, PNG_2),
+        ruta(SAMURAI, JUMP, RIGHT, PNG_3),
+        ruta(SAMURAI, JUMP, RIGHT, PNG_4),
+        ruta(SAMURAI, JUMP, RIGHT, PNG_5),
+        ruta(SAMURAI, JUMP, RIGHT, PNG_6),
+        ruta(SAMURAI, JUMP, RIGHT, PNG_7),
+        ruta(SAMURAI, JUMP, RIGHT, PNG_8),
+        ruta(SAMURAI, JUMP, RIGHT, PNG_9),
+        ruta(SAMURAI, JUMP, RIGHT, PNG_10),
+        ruta(SAMURAI, JUMP, RIGHT, PNG_11),
+        ruta(SAMURAI, JUMP, RIGHT, PNG_12)
+    ]
+}
+
+
 frames_samurai = Frame_Personajes(SAMURAI)
-# Hace ciclo for  
+
 frames_samurai.agregar_frame(FRAMES_WALK_SAMURAI)
 frames_samurai.agregar_frame(FRAMES_SHIELD_SAMURAI)
 frames_samurai.agregar_frame(FRAMES_HURT_SAMURAI)
 frames_samurai.agregar_frame(FRAMES_DEAD_SAMURAI)
+frames_samurai.agregar_frame(FRAMES_ATTACK_1_SAMURAI)
+frames_samurai.agregar_frame(FRAMES_ATTACK_2_SAMURAI)
+frames_samurai.agregar_frame(FRAMES_ATTACK_3_SAMURAI)
+frames_samurai.agregar_frame(FRAMES_JUMP_SAMURAI)
+frames_samurai.agregar_frame(FRAMES_IDLE_SAMURAI)
+frames_samurai.agregar_frame(FRAMES_RUN_SAMURAI)
