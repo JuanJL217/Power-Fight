@@ -1,5 +1,4 @@
 import os
-from PIL import Image
 from pygame import sprite, image
 
 SAMURAI = 'Samurai'
@@ -66,9 +65,9 @@ class Frame_Personajes:
             DEAD+UNION+RIGHT: [],
         }
     
-    def agregar_frame(self, accion, movimiento):
-        self.frames[accion+UNION+LEFT] = movimiento[LEFT]
-        self.frames[accion+UNION+RIGHT] = movimiento[RIGHT]
+    def agregar_frame(self, movimiento):
+        self.frames[movimiento[ACTION]+UNION+LEFT] = movimiento[LEFT]
+        self.frames[movimiento[ACTION]+UNION+RIGHT] = movimiento[RIGHT]
 
     def obtener_frames(self, accion):
         return self.frames.get(accion, [])
@@ -157,17 +156,27 @@ FRAMES_DEAD_SAMURAI = {
 }
 
 
+FRAMES_RUN_SAMURAI = {
+
+    ACTION: RUN,
+
+    LEFT: [
+        ruta(SAMURAI, RUN, LEFT, PNG_1),
+        ruta(SAMURAI, RUN, LEFT, PNG_2),
+        ruta(SAMURAI, RUN, LEFT, PNG_3)
+    ],
+
+    RIGHT: [
+        ruta(SAMURAI, RUN, RIGHT, PNG_1),
+        ruta(SAMURAI, RUN, RIGHT, PNG_2),
+        ruta(SAMURAI, RUN, RIGHT, PNG_3)
+    ]
+}
+
+
 frames_samurai = Frame_Personajes(SAMURAI)
 # Hace ciclo for  
 frames_samurai.agregar_frame(FRAMES_WALK_SAMURAI)
 frames_samurai.agregar_frame(FRAMES_SHIELD_SAMURAI)
 frames_samurai.agregar_frame(FRAMES_HURT_SAMURAI)
 frames_samurai.agregar_frame(FRAMES_DEAD_SAMURAI)
-
-
-
-
-for i in range(1,4):
-    imagen = Image.open(ruta(SAMURAI, DEAD, f"{i}.png"))
-    imagen_volteada = imagen.transpose(Image.FLIP_LEFT_RIGHT)
-    imagen_volteada.save(f"{i}.png")
