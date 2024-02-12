@@ -1,7 +1,7 @@
 import pygame
 from pygame import init, display, event, image, transform, font, Rect, time
 from pygame.locals import QUIT, MOUSEBUTTONDOWN, MOUSEBUTTONUP
-from Frames import Frame_Personajes, FRAMES_IDLE_SAMURAI, FRAMES_WALK_SAMURAI, RIGHT, LEFT
+from Frames import Frame_Personajes, FRAMES_IDLE_SAMURAI, FRAMES_WALK_SAMURAI, RIGHT, LEFT, FRAMES_RUN_SAMURAI, RUN, WALK, IDLE, JUMP, FRAMES_JUMP_SAMURAI
 
 
 SAMURAI = 'Samurai'
@@ -28,27 +28,34 @@ def pantalla_pelea():
     Samurai = Frame_Personajes(SAMURAI)
     Samurai.agregar_frame(FRAMES_IDLE_SAMURAI)
     Samurai.agregar_frame(FRAMES_WALK_SAMURAI)
-    parado_derecha = Samurai.obtener_frames('Idle', RIGHT)
-    parado_izquierda = Samurai.obtener_frames('Idle', 'left')
-    caminar_izquierda = Samurai.obtener_frames('Walk', 'Left')
-    caminar_derecha = Samurai.obtener_frames('Walk', RIGHT)
+    Samurai.agregar_frame(FRAMES_RUN_SAMURAI)
+    Samurai.agregar_frame(FRAMES_JUMP_SAMURAI)
+    parado_derecha = Samurai.obtener_frames(IDLE, RIGHT)
+    parado_izquierda = Samurai.obtener_frames(IDLE, LEFT)
+    caminar_izquierda = Samurai.obtener_frames(WALK, LEFT)
+    caminar_derecha = Samurai.obtener_frames(WALK, RIGHT)
+    correr_derecha = Samurai.obtener_frames(RUN, RIGHT)
+    correr_izquierda = Samurai.obtener_frames(RUN, LEFT)
+    saltar_derecha = Samurai.obtener_frames(JUMP, RIGHT)
+    saltar_inzquierda = Samurai.obtener_frames(JUMP, LEFT)
 
-    print(caminar_derecha)
+    print(parado_izquierda)
     #print(parado_derecha)
 
-    x = 58
+    x = 200
     y = 420
     width_personaje = 5
     height_personaje = 5
     vel = 5
 
-    frame_rect = parado_derecha[0].get_rect()
-    frame_rect.center = (WIDTH // 2, HEIGHT // 2)
+    personaje_samurai = parado_derecha[0].get_rect()
+    personaje_samurai.center = (x, y)
 
     frame_index = 0
-    frame_rate = 13
+    frame_rate = 15
 
-    movement_speed = 5
+    movement_speed = 8
+    run_speed = 15
 
     clock = time.Clock()
 
@@ -56,6 +63,8 @@ def pantalla_pelea():
 
     left = False
     right = False
+
+    ultima_direccion = None
 
     while running:
 
@@ -67,38 +76,83 @@ def pantalla_pelea():
 
         quieto = True
 
-        if keys[pygame.K_LEFT]:
-            frame_rect.x -= movement_speed
+
+        if keys[pygame.K_LSHIFT] and keys[pygame.K_a]:
+            personaje_samurai.x -= run_speed
+            run = True
             right = False
             left = True
             quieto = False
 
-        elif keys[pygame.K_RIGHT]:
-            frame_rect.x += movement_speed
+        elif keys[pygame.K_LSHIFT] and keys[pygame.K_d]:
+            personaje_samurai.x += run_speed
+            run = True
             right = True
             left = False
             quieto = False
+
+        elif keys[pygame.K_a]:
+            personaje_samurai.x -= movement_speed
+            run = False
+            right = False
+            left = True
+            quieto = False
+
+        elif keys[pygame.K_d]:
+            personaje_samurai.x += movement_speed
+            run = False
+            right = True
+            left = False
+            quieto = False
+
 
         pantalla.blit(imagen_tamanio, (0, 0))
 
 
         if quieto:
+            if ultima_direccion == RIGHT:
+                frame_index += 1
+                if frame_index >= len(parado_derecha):
+                    frame_index = 0
+                pantalla.blit(parado_derecha[frame_index], personaje_samurai)
+            elif ultima_direccion == LEFT:
+                frame_index += 1
+                if frame_index >= len(parado_izquierda):
+                    frame_index = 0
+                pantalla.blit(parado_izquierda[frame_index], personaje_samurai)
+            else:
+                frame_index += 1
+                if frame_index >= len(parado_derecha):
+                    frame_index = 0
+                pantalla.blit(parado_derecha[frame_index], personaje_samurai)                
+        
+        elif right and run:
+            ultima_direccion = RIGHT
             frame_index += 1
-            if frame_index >= len(parado_derecha):
+            if frame_index >= len(correr_derecha):
                 frame_index = 0
-            pantalla.blit(parado_derecha[frame_index], frame_rect)
+            pantalla.blit(correr_derecha[frame_index], personaje_samurai)
+        
+        elif left and run:
+            ultima_direccion = LEFT
+            frame_index += 1
+            if frame_index >= len(correr_izquierda):
+                frame_index = 0
+            pantalla.blit(correr_izquierda[frame_index], personaje_samurai)           
 
         elif right:
+            ultima_direccion = RIGHT
             frame_index += 1
             if frame_index >= len(caminar_derecha):
                 frame_index = 0
-            pantalla.blit(caminar_derecha[frame_index], frame_rect)
+            pantalla.blit(caminar_derecha[frame_index], personaje_samurai)
 
         elif left:
+            ultima_direccion = LEFT
             frame_index += 1
             if frame_index >= len(caminar_izquierda):
                 frame_index = 0
-            pantalla.blit(caminar_izquierda[frame_index], frame_rect)
+            pantalla.blit(caminar_izquierda[frame_index], personaje_samurai)
 
 
         # Controlar la velocidad de la animación

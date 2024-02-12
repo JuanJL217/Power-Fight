@@ -301,7 +301,7 @@ FRAMES_JUMP_SAMURAI = {
 }
 
 
-frames_samurai = Frame_Personajes(SAMURAI)
+'''frames_samurai = Frame_Personajes(SAMURAI)
 
 frames_samurai.agregar_frame(FRAMES_WALK_SAMURAI)
 frames_samurai.agregar_frame(FRAMES_SHIELD_SAMURAI)
@@ -312,4 +312,4 @@ frames_samurai.agregar_frame(FRAMES_ATTACK_2_SAMURAI)
 frames_samurai.agregar_frame(FRAMES_ATTACK_3_SAMURAI)
 frames_samurai.agregar_frame(FRAMES_JUMP_SAMURAI)
 frames_samurai.agregar_frame(FRAMES_IDLE_SAMURAI)
-frames_samurai.agregar_frame(FRAMES_RUN_SAMURAI)
+frames_samurai.agregar_frame(FRAMES_RUN_SAMURAI)'''
