@@ -30,7 +30,7 @@ def pantalla_pelea():
     parado_izquierda, parado_derecha = Samurai.obtener_frames(IDLE)
     caminar_izquierda, caminar_derecha = Samurai.obtener_frames(WALK)
     correr_izquierda, correr_derecha = Samurai.obtener_frames(RUN)
-    saltar_derecha, saltar_inzquierda = Samurai.obtener_frames(JUMP)
+    saltar_inzquierda, saltar_derecha = Samurai.obtener_frames(JUMP)
 
     x = 200
     y = 420
@@ -73,6 +73,7 @@ def pantalla_pelea():
             right = False
             left = True
             quieto = False
+            salto = False
 
         elif keys[pygame.K_LSHIFT] and keys[pygame.K_d]:
             personaje_samurai.x += run_speed
@@ -80,6 +81,23 @@ def pantalla_pelea():
             right = True
             left = False
             quieto = False
+            salto = False
+
+        elif keys[pygame.K_SPACE] and keys[pygame.K_a]:
+            personaje_samurai.x -= run_speed
+            run = False
+            right = False
+            left = True
+            quieto = False
+            salto = True 
+
+        elif keys[pygame.K_SPACE] and keys[pygame.K_d]:
+            personaje_samurai.x += run_speed
+            run = False
+            right = True
+            left = False
+            quieto = False
+            salto = True         
 
         elif keys[pygame.K_a]:
             personaje_samurai.x -= movement_speed
@@ -87,6 +105,8 @@ def pantalla_pelea():
             right = False
             left = True
             quieto = False
+            salto = False
+
 
         elif keys[pygame.K_d]:
             personaje_samurai.x += movement_speed
@@ -94,6 +114,7 @@ def pantalla_pelea():
             right = True
             left = False
             quieto = False
+            salto = False
 
 
         pantalla.blit(imagen_tamanio, (0, 0))
@@ -130,7 +151,21 @@ def pantalla_pelea():
             frame_index += 1
             if frame_index >= len(correr_izquierda):
                 frame_index = 0
-            pantalla.blit(correr_izquierda[frame_index], personaje_samurai)           
+            pantalla.blit(correr_izquierda[frame_index], personaje_samurai)    
+
+        elif right and salto:
+            ultima_direccion = RIGHT
+            frame_index += 1
+            if frame_index >= len(saltar_derecha):
+                frame_index = 0
+            pantalla.blit(saltar_derecha[frame_index], personaje_samurai)
+        
+        elif left and salto:
+            ultima_direccion = LEFT
+            frame_index += 1
+            if frame_index >= len(saltar_inzquierda):
+                frame_index = 0
+            pantalla.blit(saltar_inzquierda[frame_index], personaje_samurai)        
 
         elif right:
             ultima_direccion = RIGHT
