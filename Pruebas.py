@@ -1,7 +1,7 @@
 import pygame
 from pygame import init, display, event, image, transform, font, Rect, time
 from pygame.locals import QUIT, MOUSEBUTTONDOWN, MOUSEBUTTONUP
-from Frames import Frame_Personajes, FRAMES_IDLE_SAMURAI, FRAMES_WALK_SAMURAI, RIGHT, LEFT, FRAMES_RUN_SAMURAI, RUN, WALK, IDLE, JUMP, FRAMES_JUMP_SAMURAI
+from Frames import Frame_Personajes, FRAMES_SAMURAI, LEFT, RIGHT, RUN, WALK, IDLE, JUMP
 
 
 SAMURAI = 'Samurai'
@@ -26,21 +26,11 @@ def pantalla_pelea():
 
 
     Samurai = Frame_Personajes(SAMURAI)
-    Samurai.agregar_frame(FRAMES_IDLE_SAMURAI)
-    Samurai.agregar_frame(FRAMES_WALK_SAMURAI)
-    Samurai.agregar_frame(FRAMES_RUN_SAMURAI)
-    Samurai.agregar_frame(FRAMES_JUMP_SAMURAI)
-    parado_derecha = Samurai.obtener_frames(IDLE, RIGHT)
-    parado_izquierda = Samurai.obtener_frames(IDLE, LEFT)
-    caminar_izquierda = Samurai.obtener_frames(WALK, LEFT)
-    caminar_derecha = Samurai.obtener_frames(WALK, RIGHT)
-    correr_derecha = Samurai.obtener_frames(RUN, RIGHT)
-    correr_izquierda = Samurai.obtener_frames(RUN, LEFT)
-    saltar_derecha = Samurai.obtener_frames(JUMP, RIGHT)
-    saltar_inzquierda = Samurai.obtener_frames(JUMP, LEFT)
-
-    print(parado_izquierda)
-    #print(parado_derecha)
+    Samurai.agregar_frame(FRAMES_SAMURAI)
+    parado_izquierda, parado_derecha = Samurai.obtener_frames(IDLE)
+    caminar_izquierda, caminar_derecha = Samurai.obtener_frames(WALK)
+    correr_izquierda, correr_derecha = Samurai.obtener_frames(RUN)
+    saltar_derecha, saltar_inzquierda = Samurai.obtener_frames(JUMP)
 
     x = 200
     y = 420
@@ -115,11 +105,13 @@ def pantalla_pelea():
                 if frame_index >= len(parado_derecha):
                     frame_index = 0
                 pantalla.blit(parado_derecha[frame_index], personaje_samurai)
+
             elif ultima_direccion == LEFT:
                 frame_index += 1
                 if frame_index >= len(parado_izquierda):
                     frame_index = 0
                 pantalla.blit(parado_izquierda[frame_index], personaje_samurai)
+
             else:
                 frame_index += 1
                 if frame_index >= len(parado_derecha):
